@@ -49,13 +49,36 @@ app.get('/todos/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//edit頁面路由
+app.get('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .lean() //把資料變成單純陣列
+    .then((todo) => res.render('edit', { todo }))
+    .catch(error => console.log(error))
+})
+
 //Create功能
 app.post('/todos', (req, res) => {
   const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
-  return Todo.create({ name })     // 存入資料庫
+  return Todo.create({ name })     // 整份資料存入資料庫
     .then(() => res.redirect('/')) // 新增完成後導回首頁
     .catch(error => console.log(error))
 })
+
+//Update功能
+app.post('/todos/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  return Todo.findById(id) //查詢單筆資料
+    .then(todo => {
+      todo.name = name //更新資料
+      return todo.save() //重新儲存單筆資料
+    })
+    .then(() => res.redirect(`/todos/${id}`)) //導向detail頁
+    .catch(error => console.log(error))
+})
+
 
 // 設定 port 3000
 app.listen(3000, () => {
