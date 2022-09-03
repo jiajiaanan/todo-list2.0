@@ -40,7 +40,16 @@ app.get('/todos/new', (req, res) => {
   return res.render('new')
 })
 
+//detail頁面路由
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id //動態路由
+  return Todo.findById(id) //從資料庫查出資料
+    .lean()
+    .then((todo) => res.render('detail', { todo }))
+    .catch(error => console.log(error))
+})
 
+//Create功能
 app.post('/todos', (req, res) => {
   const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
   return Todo.create({ name })     // 存入資料庫
