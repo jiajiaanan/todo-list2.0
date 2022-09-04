@@ -79,6 +79,14 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//Delete功能
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id) //查詢該筆資料
+    .then(todo => todo.remove()) //刪除該筆資料
+    .then(() => res.redirect('/')) //導向根目錄頁
+    .catch(error => console.log(error))
+})
 
 // 設定 port 3000
 app.listen(3000, () => {
