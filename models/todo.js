@@ -5,8 +5,9 @@ const todoSchema = new Schema({ //新建schema
     type: String, // 資料型別是字串
     required: true // 這是個必填欄位
   },
-  done: {
-    type: Boolean
+  isDone: {
+    type: Boolean,
+    default: false  // 預設完成狀態為 false
   }
 })
 module.exports = mongoose.model('Todo', todoSchema) //輸出

@@ -69,13 +69,14 @@ app.post('/todos', (req, res) => {
 //Update功能
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
-  return Todo.findById(id) //查詢單筆資料
+  const { name, isDone } = req.body
+  return Todo.findById(id)
     .then(todo => {
-      todo.name = name //更新資料
-      return todo.save() //重新儲存單筆資料
+      todo.name = name
+      todo.isDone = isDone === 'on'
+      return todo.save()
     })
-    .then(() => res.redirect(`/todos/${id}`)) //導向detail頁
+    .then(() => res.redirect(`/todos/${id}`))
     .catch(error => console.log(error))
 })
 
