@@ -1,13 +1,12 @@
 // 載入 express 並建構應用程式伺服器
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
+
+const app = express()
 const Todo = require('./models/todo') // 載入 Todo model
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-
-//使用body-parser
-app.use(express.urlencoded({ extended: true }))
 
 //載入handlebars
 const exphbs = require('express-handlebars');
@@ -25,6 +24,13 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected!')
 })
+
+
+//使用body-parser
+app.use(express.urlencoded({ extended: true }))
+
+//使用method-override
+app.use(methodOverride('_method'))
 
 
 // 設定首頁路由
@@ -68,7 +74,7 @@ app.post('/todos', (req, res) => {
 })
 
 //Update功能
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
   return Todo.findById(id)
@@ -82,7 +88,7 @@ app.post('/todos/:id/edit', (req, res) => {
 })
 
 //Delete功能
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id) //查詢該筆資料
     .then(todo => todo.remove()) //刪除該筆資料
