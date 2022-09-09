@@ -1,17 +1,3 @@
-{{!-- <ul>
-  {{#each todos}}
-  <li>
-    <input type="checkbox" name="isDone" {{#if this.isDone }} checked {{/if}} disabled>
-    {{this.name}}
-    <a href="./todos/{{ this._id }}">detail</a>
-    <a href="./todos/{{ this._id }}/edit">edit</a>
-    <form method="POST" action="./todos/{{ this._id }}?_method=DELETE" style="display: inline;">
-      <button type="submit">delete</button>
-    </form>
-  </li>
-  {{/each}}
-</ul> --}}
-
 <ul class="list-group">
   {{#each todos}}
   <li class="list-group-item">

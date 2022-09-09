@@ -14,12 +14,11 @@ app.set('view engine', 'hbs')
 
 //使用body-parser
 app.use(express.urlencoded({ extended: true }))
-
 //使用method-override
 app.use(methodOverride('_method'))
-
 // 將 request 導入路由器
 app.use(routes)
+
 
 // 設定 port 3000
 app.listen(3000, () => {
