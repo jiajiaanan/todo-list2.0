@@ -2,6 +2,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars') //載入handlebars
 const methodOverride = require('method-override')
+const session = require('express-session')
 const { proppatch } = require('./routes')
 
 const routes = require('./routes') // 引用路由器
@@ -20,6 +21,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 // 將 request 導入路由器
 app.use(routes)
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 
 // 設定 port 3000
