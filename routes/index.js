@@ -1,18 +1,16 @@
 // 引用 Express 與 Express 路由器
 const express = require('express')
 const router = express.Router() // 準備引入路由模組
-// 引入 home 模組程式碼
+
 const home = require('./modules/home')
-router.use('/', home)
+const todos = require('./modules/todos')
+const users = require('./modules/users')
 
-// 引入 todos 模組程式碼
-const todos = require('./modules/todos') 
-router.use('/todos', todos)
+const { authenticator } = require('../middleware/auth')  // 掛載 middleware
 
-
-const users = require('./modules/users') 
+router.use('/todos', authenticator, todos) // 加入驗證程序
 router.use('/users', users)
-
+router.use('/', authenticator, home) // 加入驗證程序 條件越寬鬆越往下放
 
 // 匯出路由器
 module.exports = router
