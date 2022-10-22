@@ -7,8 +7,6 @@ const { proppatch } = require('./routes')
 // 載入設定檔，要寫在 express-session 以後
 const usePassport = require('./config/passport')
 
-
-
 const routes = require('./routes') // 引用路由器
 require('./config/mongoose')
 
