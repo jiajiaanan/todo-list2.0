@@ -8,6 +8,12 @@ const todoSchema = new Schema({ //新建schema
   isDone: {
     type: Boolean,
     default: false  // 預設完成狀態為 false
+  },
+  userId: {  // 加入關聯設定
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true
   }
 })
 module.exports = mongoose.model('Todo', todoSchema) //輸出
