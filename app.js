@@ -7,16 +7,20 @@ const session = require('express-session')
 const usePassport = require('./config/passport')// 載入設定檔，要寫在 express-session 以後
 const flash = require('connect-flash')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 require('./config/mongoose')
 
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' })) //指定副檔名
 app.set('view engine', 'hbs')
 
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: 'process.env.SESSION_SECRET',
   resave: false,
   saveUninitialized: true
 }))
